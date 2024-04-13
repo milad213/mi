@@ -10,49 +10,49 @@ import 'app/home/cubit/home_cubit.dart';
 import 'app/home/model/home_model.dart';
 import 'http_manager/end_points.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp( const MyApp());
+  runApp(const MyApp());
   await PreferencesManager.init();
   token = PreferencesManager.getData('api_token') ?? '';
-  dynamic data =  PreferencesManager.getData('home_model');
+  dynamic data = PreferencesManager.getData('home_model');
   if (data != null) {
     homeModel = HomeModel.fromJson(data);
   }
 }
-
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return 
-     ScreenUtilInit(
-      designSize: const Size(393, 873),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (
-        BuildContext context,
-        Widget? child,
-      ) {return MultiBlocProvider(
-      providers: [
-        BlocProvider<LoginCubit>(create: (context) => LoginCubit(),),
-        BlocProvider<HomeCubit>(create: (context)=>HomeCubit()..getUsers()
-        )
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: RouteGenerator.getRoute,
-        initialRoute: Routes.loginRoute,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.primary),
-          useMaterial3: true,
-        ),
-      ),
-    );
-  } );
-}
+    return ScreenUtilInit(
+        designSize: const Size(393, 873),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (
+          BuildContext context,
+          Widget? child,
+        ) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<LoginCubit>(
+                create: (context) => LoginCubit(),
+              ),
+              BlocProvider<HomeCubit>(
+                  create: (context) => HomeCubit()..getUsers())
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              onGenerateRoute: RouteGenerator.getRoute,
+              initialRoute: Routes.loginRoute,
+              theme: ThemeData(
+                colorScheme:
+                    ColorScheme.fromSeed(seedColor: ColorManager.primary),
+                useMaterial3: true,
+              ),
+            ),
+          );
+        });
+  }
 }

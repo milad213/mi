@@ -34,18 +34,16 @@ Widget myContainer({
 }) {
   return Container(
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(35),
+      borderRadius: BorderRadius.circular(35),
       color: ColorManager.white,
     ),
-    padding:  EdgeInsets.symmetric(
-        horizontal: horizontalPadding,
-        vertical: verticalPadding
-    ),
+    padding: EdgeInsets.symmetric(
+        horizontal: horizontalPadding, vertical: verticalPadding),
     child: child,
   );
 }
 
-Widget button( function , String text) {
+Widget button(function, String text) {
   return GestureDetector(
     onTap: function,
     child: myContainer(
@@ -60,7 +58,7 @@ Widget button( function , String text) {
   );
 }
 
-void showToast(String message , ToastStates state){
+void showToast(String message, ToastStates state) {
   Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
@@ -70,75 +68,66 @@ void showToast(String message , ToastStates state){
       webPosition: 'center',
       backgroundColor: chooseToastColor(state),
       textColor: Colors.white,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
 }
 
-Color chooseToastColor(ToastStates state){
-  switch(state){
-    case ToastStates.Success :
+Color chooseToastColor(ToastStates state) {
+  switch (state) {
+    case ToastStates.Success:
       return Colors.green;
-    case ToastStates.Warning :
+    case ToastStates.Warning:
       return Colors.yellow;
-    case ToastStates.Error :
+    case ToastStates.Error:
       return Colors.red;
   }
 }
 
-String chooseWebToastColor(ToastStates state){
-  switch(state){
-    case ToastStates.Success :
+String chooseWebToastColor(ToastStates state) {
+  switch (state) {
+    case ToastStates.Success:
       return 'green';
-    case ToastStates.Warning :
+    case ToastStates.Warning:
       return 'yellow';
-    case ToastStates.Error :
+    case ToastStates.Error:
       return 'red';
   }
 }
 
-enum ToastStates {
-  Success,
-  Error,
-  Warning
-}
+enum ToastStates { Success, Error, Warning }
 
-Widget userCard(
-    {required String imageUrl,
-     required String firstName,
-     required String lastName,
-     required String email,
-     required Cubit homeCubit,
-     required int userId,
-     required BuildContext context,
-     required TextEditingController newNameController,
-     required TextEditingController newJobController,
-    }){
+Widget userCard({
+  required String imageUrl,
+  required String firstName,
+  required String lastName,
+  required String email,
+  required Cubit homeCubit,
+  required int userId,
+  required BuildContext context,
+  required TextEditingController newNameController,
+  required TextEditingController newJobController,
+}) {
   return Container(
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(25),
-      color: ColorManager.lightBlue
-    ),
+        borderRadius: BorderRadius.circular(25), color: ColorManager.lightBlue),
     child: Row(
       children: [
         Container(
           width: 100,
           height: 100,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(
-                  imageUrl,
-              )
-            )
-          ),
+              borderRadius: BorderRadius.circular(25),
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    imageUrl,
+                  ))),
         ),
         const SizedBox(width: 5),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                firstName,
+              firstName,
               style: textTheme.labelLarge!.copyWith(color: ColorManager.grey),
             ),
             Text(
@@ -155,24 +144,20 @@ Widget userCard(
         Column(
           children: [
             IconButton(
-                onPressed: (){
+                onPressed: () {
                   (homeCubit as HomeCubit).deleteUser(userId);
                 },
-                icon: const Icon(Icons.delete)
-            ),
+                icon: const Icon(Icons.delete)),
             IconButton(
-                onPressed: (){
+                onPressed: () {
                   myAlertDialog(
                       context: context,
                       newNameController: newNameController,
                       newJobController: newJobController,
                       homeCubit: homeCubit,
-                      userId: userId
-                  );
-
+                      userId: userId);
                 },
-                icon: const Icon(Icons.edit)
-            ),
+                icon: const Icon(Icons.edit)),
           ],
         )
       ],
@@ -180,14 +165,13 @@ Widget userCard(
   );
 }
 
-
- myAlertDialog({
-   required BuildContext context,
-   required TextEditingController newNameController,
-   required TextEditingController newJobController,
-   required Cubit homeCubit,
-   required int userId,
- }){
+myAlertDialog({
+  required BuildContext context,
+  required TextEditingController newNameController,
+  required TextEditingController newJobController,
+  required Cubit homeCubit,
+  required int userId,
+}) {
   showDialog(
     context: context,
     builder: (context) {
@@ -199,7 +183,7 @@ Widget userCard(
             color: ColorManager.grey,
             child: Column(
               children: [
-                 Text(
+                Text(
                   'Enter new data',
                   style: textTheme.displayMedium,
                 ),
@@ -210,8 +194,7 @@ Widget userCard(
                     prefixIcon: const Icon(Icons.person),
                     hint: 'new name',
                     hintStyle: textTheme.bodySmall,
-                    controller: newNameController
-                ),
+                    controller: newNameController),
                 const SizedBox(
                   height: 10,
                 ),
@@ -219,17 +202,15 @@ Widget userCard(
                     prefixIcon: const Icon(Icons.work_history_outlined),
                     hint: 'new work',
                     hintStyle: textTheme.bodySmall,
-                    controller: newJobController
-                ),
+                    controller: newJobController),
                 const SizedBox(
                   height: 10,
                 ),
-                button((){
+                button(() {
                   (homeCubit as HomeCubit).editUser(
                       userId: userId,
                       name: newNameController.text,
-                      job: newJobController.text
-                  );
+                      job: newJobController.text);
                 }, 'edit')
               ],
             ),
